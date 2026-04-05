@@ -1,38 +1,31 @@
 const express = require("express")
 const cookieParser = require("cookie-parser")
-const cors = require("cors")
-
+const cors = require("cors")           
 
 const app = express()
 
+/* ─── CORS ─── */
+app.use(cors({
+  origin: process.env.FRONTEND_URL || "http://localhost:5173",  // your React dev server
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}))
 
 app.use(express.json())
 app.use(cookieParser())
 
-/**
- * - Routes required
- */
-const authRouter = require("./routes/auth.routes")
-const accountRouter = require("./routes/account.routes")
+/* ─── Routes ─── */
+const authRouter        = require("./routes/auth.routes")
+const accountRouter     = require("./routes/account.routes")
 const transactionRoutes = require("./routes/transaction.routes")
 
-/**
- * - Use Routes
- */
-
 app.get("/", (req, res) => {
-    res.send("Ledger Service is up and running")
+  res.send("Ledger Service is up and running")
 })
 
-app.use("/api/auth", authRouter)
-app.use("/api/accounts", accountRouter)
+app.use("/api/auth",         authRouter)
+app.use("/api/accounts",     accountRouter)
 app.use("/api/transactions", transactionRoutes)
-
-/** API Call */
-app.use(cors({
-  origin: "http://localhost:5173",           // or your frontend's URL
-  credentials: true
-}))
-
 
 module.exports = app
