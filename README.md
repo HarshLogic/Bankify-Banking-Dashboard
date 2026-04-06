@@ -254,22 +254,6 @@ middleware level.
 - DM Sans + Playfair Display + DM Mono (Google Fonts)
 - Pure CSS with CSS custom properties
 
----
-
-## 🚀 Deployment
-
-### Backend → Render / Railway
-1. Push backend to GitHub
-2. Set environment variables: `MONGODB_URI`, `JWT_SECRET`, `FRONTEND_URL`
-3. Deploy — note your backend URL (e.g. `https://your-app.onrender.com`)
-
-### Frontend → Vercel / Netlify
-1. Push frontend to GitHub
-2. Set environment variable: `VITE_API_URL=https://your-app.onrender.com`
-3. Update backend `FRONTEND_URL` to your Vercel URL
-4. Deploy
-
----
 
 ## 📝 License
 
