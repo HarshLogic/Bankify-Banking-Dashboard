@@ -1,4 +1,4 @@
-const BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+const BASE = import.meta.env.API_URL || 'http://localhost:3000'
 
 /* ─── Token helpers ─── */
 export const saveToken = (t) => localStorage.setItem('ledger_token', t)
