@@ -1,4 +1,4 @@
-# ⟁ Ledger — Full-Stack Banking Dashboard
+# ⟁ Bank8fy — Full-Stack Banking Dashboard
 
 > A production-grade double-entry ledger system with atomic transfers, real-time balance derivation, and an immutable audit trail — built on Node.js, Express, MongoDB, and React.
 
