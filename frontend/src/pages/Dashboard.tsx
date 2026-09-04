@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { CreditCard, ArrowUpRight, ArrowDownRight, Plus } from 'lucide-react';
+import { CreditCard, ArrowUpRight, Plus } from 'lucide-react';
 import { api } from '../services/api';
 
 interface Account {
