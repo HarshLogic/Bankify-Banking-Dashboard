@@ -1,260 +1,104 @@
-# ⟁ Bankify — Full-Stack Banking Dashboard
+# 🏦 Bankify
 
-> A production-grade double-entry ledger system with atomic transfers, real-time balance derivation, and an immutable audit trail — built on Node.js, Express, MongoDB, and React.
+![Bankify Banner](https://img.shields.io/badge/Bankify-Banking_Dashboard-indigo?style=for-the-badge)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Threejs](https://img.shields.io/badge/threejs-black?style=for-the-badge&logo=three.js&logoColor=white)
 
----
+Bankify is a modern, full-stack banking dashboard application featuring a beautiful 3D-animated frontend and a highly secure, ledger-based transaction backend.
 
-## 📌 What is this project?
+## ✨ Features
 
-Ledger is a full-stack **financial ledger application** that simulates how real banks track money. Unlike simple balance fields, every rupee is tracked as an immutable CREDIT or DEBIT entry in a ledger. Balances are derived by summing entries — never stored directly — making the system tamper-evident and auditable. Transfers are ACID-compliant using MongoDB sessions, meaning they either fully succeed or fully fail with no partial states.
+### 🎨 Frontend
+- **Stunning 3D UI:** Uses `@react-three/fiber` and Framer Motion for immersive, smooth 3D card animations and transitions.
+- **Modern Dashboard:** View all your active accounts, check available balances, and seamlessly navigate your finances.
+- **Dark/Light Mode:** Full theming support via Tailwind CSS for comfortable viewing at any time of day.
+- **Responsive Design:** Optimized for mobile, tablet, and desktop devices.
+- **Secure Transfers:** Real-time money transfers using 24-character Account IDs.
 
-### 6-line project summary
-
-1. **Double-Entry Accounting** — Every transaction writes two ledger entries (DEBIT + CREDIT); balances are computed on-the-fly from these immutable records.
-2. **Atomic Transactions** — Transfers use MongoDB sessions with `startTransaction()` and `commitTransaction()`, so money never disappears mid-transfer.
-3. **Idempotent Requests** — Every transfer requires a unique `idempotencyKey`; retrying the same key returns the original result instead of charging twice.
-4. **JWT Authentication** — Users register/login to receive a 3-day JWT token; protected routes validate this token via `authMiddleware` on every request.
-5. **System User Funding** — A special `authSystemUserMiddleware` guards the initial-funds endpoint, which simulates a bank crediting an account from an external source.
-6. **Real-Time Balances** — Account balances are never stored; the frontend queries each account's balance fresh from ledger aggregations every time you load or refresh.
-
----
-
-## 🗂 Project Structure
-
-```
-├── backend-ledger-main/          # Your Node.js / Express backend
-│   ├── src/
-│   │   ├── app.js                ← Add CORS here (see setup step 3)
-│   │   ├── config/db.js
-│   │   ├── controllers/
-│   │   │   ├── auth.controller.js
-│   │   │   ├── account.controller.js
-│   │   │   └── transaction.controller.js
-│   │   ├── middleware/
-│   │   │   └── auth.middleware.js
-│   │   ├── models/
-│   │   │   ├── user.model.js
-│   │   │   ├── account.model.js
-│   │   │   ├── transaction.model.js
-│   │   │   ├── ledger.model.js
-│   │   │   └── blackList.model.js
-│   │   ├── routes/
-│   │   │   ├── auth.routes.js
-│   │   │   ├── account.routes.js
-│   │   │   └── transaction.routes.js
-│   │   └── services/
-│   │       └── email.service.js
-│   └── server.js
-│
-└── ledger-frontend/              # React + Vite frontend (this folder)
-    ├── src/
-    │   ├── api/
-    │   │   └── client.js         ← All API calls in one place
-    │   ├── components/
-    │   │   ├── Navbar.jsx
-    │   │   ├── AccountCard.jsx
-    │   │   ├── TransferModal.jsx
-    │   │   ├── CreateAccountModal.jsx
-    │   │   ├── InitialFundsModal.jsx
-    │   │   └── Toast.jsx
-    │   ├── pages/
-    │   │   ├── AuthPage.jsx
-    │   │   └── Dashboard.jsx
-    │   ├── App.jsx
-    │   ├── main.jsx
-    │   └── index.css
-    ├── index.html
-    ├── package.json
-    ├── vite.config.js
-    └── .env.example
-```
+### ⚙️ Backend
+- **Ledger-Based Accounting:** Balances are strictly calculated through immutable CREDIT and DEBIT ledger entries, ensuring zero data corruption or balance inconsistencies.
+- **Idempotency:** Transactions require unique idempotency keys to completely eliminate the risk of accidental double-spending.
+- **Secure Authentication:** JWT-based user authentication (Login/Register) using secure HTTP-only cookies.
+- **Atomic Transactions:** Uses MongoDB replica set sessions and transactions (`session.startTransaction()`) to guarantee that money is never lost during network failures.
 
 ---
 
-## ⚡ Quick Setup
+## 🛠️ Tech Stack
+
+**Frontend:**
+- React 18 (Vite)
+- TypeScript
+- Tailwind CSS
+- Framer Motion (Animations)
+- React Three Fiber & Drei (3D Graphics)
+- Lucide React (Icons)
+- Axios
+
+**Backend:**
+- Node.js & Express.js
+- MongoDB & Mongoose
+- JSON Web Tokens (JWT)
+- Nodemailer (Email notifications)
+- bcrypt (Password hashing)
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
+- Node.js (v18+)
+- MongoDB Atlas cluster (Replica set required for ACID transactions)
 
-- Node.js v18+
-- MongoDB (local or Atlas)
-- npm
-
----
-
-### Step 1 — Set up the Backend
-
+### 1. Clone the repository
 ```bash
-cd backend-ledger-main
-npm install
-npm install cors          # ← Required for frontend connection
+git clone https://github.com/HarshLogic/Bankify-Banking-Dashboard.git
+cd Bankify-Banking-Dashboard
 ```
 
-Create a `.env` file in `backend-ledger-main/`:
-
+### 2. Backend Setup
+```bash
+cd backend
+npm install
+```
+Create a `.env` file inside the `backend` directory with the following variables:
 ```env
 PORT=3000
-MONGODB_URI=mongodb://localhost:27017/ledger
-JWT_SECRET=your_super_secret_jwt_key_here
-FRONTEND_URL=http://localhost:5173
-
-# Optional: Email service (Nodemailer)
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=your@email.com
-SMTP_PASS=your_app_password
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_super_secret_jwt_key
 ```
-
-**Update `src/app.js`** — replace it with the contents of `backend-app.js` in this folder (adds CORS config), or manually add:
-
-```js
-const cors = require("cors")
-
-app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:5173",
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-}))
-```
-
-Start the backend:
-
+Start the backend server:
 ```bash
 npm start
-# or
-node server.js
 ```
+*(The backend will run on `http://localhost:3000`)*
 
-Backend runs at **http://localhost:3000** ✅
-
----
-
-### Step 2 — Set up the Frontend
-
+### 3. Frontend Setup
+Open a new terminal window and navigate to the frontend directory:
 ```bash
-cd ledger-frontend
+cd frontend
 npm install
 ```
-
-Create a `.env` file (copy from `.env.example`):
-
-```env
-VITE_API_URL=http://localhost:3000
-```
-
-Start the frontend:
-
+Start the Vite development server:
 ```bash
 npm run dev
 ```
-
-Frontend runs at **http://localhost:5173** ✅
-
----
-
-### Step 3 — Open in Browser
-
-Visit **http://localhost:5173** and register a new account.
+*(The frontend will run on `http://localhost:5173`)*
 
 ---
 
-## 🔌 API Endpoints Reference
-
-### Auth
-| Method | Endpoint | Body | Auth |
-|--------|----------|------|------|
-| POST | `/api/auth/register` | `{ email, password, name }` | None |
-| POST | `/api/auth/login` | `{ email, password }` | None |
-| POST | `/api/auth/logout` | — | Bearer token |
-
-### Accounts
-| Method | Endpoint | Body | Auth |
-|--------|----------|------|------|
-| POST | `/api/accounts` | — | Bearer token |
-| GET | `/api/accounts` | — | Bearer token |
-| GET | `/api/accounts/balance/:accountId` | — | Bearer token |
-
-### Transactions
-| Method | Endpoint | Body | Auth |
-|--------|----------|------|------|
-| POST | `/api/transactions` | `{ fromAccount, toAccount, amount, idempotencyKey }` | Bearer token |
-| POST | `/api/transactions/system/initial-funds` | `{ toAccount, amount, idempotencyKey }` | System user JWT |
+## 📖 How to use the Transfer System
+1. **Register** a new account and log in.
+2. Go to your **Dashboard** and copy your 24-character **Account ID**.
+3. Create a second account (or use a friend's Account ID).
+4. Go to the **Transfer** page, paste the 24-character Recipient ID, enter the amount, and send!
 
 ---
 
-## 🏦 System User Setup (for funding accounts)
+## 🛡️ Security & Architecture Notes
+Bankify handles money safely by avoiding standard database updates for balances. Instead of doing `balance = balance - 100`, the system creates a permanent `DEBIT` ledger entry for the sender and a `CREDIT` ledger entry for the receiver. The account's total balance is then dynamically derived by aggregating all historical ledger entries. This double-entry bookkeeping pattern is the industry standard for financial software. 
 
-The initial funds endpoint requires a "system user" — a special admin account that represents the bank itself.
-
-1. In **MongoDB Compass**, open your database → `users` collection
-2. Manually insert a document:
-```json
-{
-  "email": "system@ledger.internal",
-  "name": "System Bank",
-  "password": "$2a$10...",
-  "systemUser": true
-}
-```
-> To get a hashed password, temporarily add a console.log in `user.model.js` or use the register route (then manually set `systemUser: true` in Compass).
-
-3. Call `POST /api/auth/login` with the system user's credentials
-4. Copy the returned JWT token
-5. Paste it into the **Fund Account** tab in the dashboard
-
----
-
-## 🧠 How the Ledger Works
-
-```
-Transfer ₹1000 from Account A → Account B
-
-Ledger entries created:
-┌─────────────────────────────────────────────┐
-│ account: A  │ type: DEBIT  │ amount: 1000  │
-│ account: B  │ type: CREDIT │ amount: 1000  │
-└─────────────────────────────────────────────┘
-
-Balance of A = SUM(CREDIT) - SUM(DEBIT) = -1000
-Balance of B = SUM(CREDIT) - SUM(DEBIT) = +1000
-
-Ledger entries are IMMUTABLE — they can never be
-edited or deleted. This is enforced at the Mongoose
-middleware level.
-```
-
----
-
-## 🎨 Frontend Features
-
-| Feature | Tab | Description |
-|---------|-----|-------------|
-| Register / Login | Auth Page | JWT-based auth with localStorage persistence |
-| View Accounts | Accounts | Cards showing live balance for each account |
-| Create Account | Accounts | Creates a new INR account (ACTIVE by default) |
-| Send Money | Transfer | Atomic transfer with balance validation |
-| Fund Account | Fund Account | System user endpoint to add initial funds |
-| Portfolio Stats | Overview | Total balance, account count, status breakdown |
-| Balance Chart | Overview | Bar showing each account's % of total portfolio |
-
----
-
-## 🛠 Tech Stack
-
-**Backend**
-- Node.js + Express
-- MongoDB + Mongoose
-- JSON Web Tokens (JWT)
-- bcryptjs (password hashing)
-- Nodemailer (email notifications)
-
-**Frontend**
-- React 18
-- Vite 6
-- DM Sans + Playfair Display + DM Mono (Google Fonts)
-- Pure CSS with CSS custom properties
-
-
-## 📝 License
-
-MIT
+## 👨‍💻 Author
+**HarshLogic**
