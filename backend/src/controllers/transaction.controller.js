@@ -32,6 +32,12 @@ async function createTransaction(req, res) {
         })
     }
 
+    if (!mongoose.Types.ObjectId.isValid(fromAccount) || !mongoose.Types.ObjectId.isValid(toAccount)) {
+        return res.status(400).json({
+            message: "Invalid account ID format. It must be a 24-character ID."
+        })
+    }
+
     const fromUserAccount = await accountModel.findOne({
         _id: fromAccount,
     })
@@ -41,8 +47,12 @@ async function createTransaction(req, res) {
     })
 
     if (!fromUserAccount || !toUserAccount) {
+        let msg = "Both accounts could not be found.";
+        if (!fromUserAccount && toUserAccount) msg = "The Sender (From) account could not be found in the database.";
+        if (fromUserAccount && !toUserAccount) msg = `The Recipient (To) account '${toAccount}' could not be found in the database. Are you sure you copied it correctly?`;
+        
         return res.status(400).json({
-            message: "Invalid fromAccount or toAccount"
+            message: msg
         })
     }
 
@@ -158,7 +168,11 @@ async function createTransaction(req, res) {
     /**
      * 10. Send email notification
      */
-    await emailService.sendTransactionEmail(req.user.email, req.user.name, amount, toAccount)
+    try {
+        await emailService.sendTransactionEmail(req.user.email, req.user.name, amount, toAccount)
+    } catch (e) {
+        console.error("Failed to send transaction email:", e)
+    }
 
     return res.status(201).json({
         message: "Transaction completed successfully",

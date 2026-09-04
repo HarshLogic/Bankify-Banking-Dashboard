@@ -49,10 +49,12 @@ export default function Transfer() {
     setSuccess('');
 
     try {
+      const idempotencyKey = `transfer-${Date.now()}-${Math.random().toString(36).substring(7)}`;
       await api.post('/transactions', {
         fromAccount: fromAccountId,
         toAccount: toAccountId,
-        amount: Number(amount)
+        amount: Number(amount),
+        idempotencyKey: idempotencyKey
       });
       setSuccess('Transfer successful!');
       setAmount('');
@@ -109,7 +111,7 @@ export default function Transfer() {
               <option value="" disabled>Select an account</option>
               {accounts.map(acc => (
                 <option key={acc._id} value={acc._id}>
-                  {acc.status} (ID: {acc._id.slice(-6)}) - {acc.balance !== undefined ? acc.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'} {acc.currency}
+                  {acc.status} ({acc._id}) - {acc.balance !== undefined ? acc.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'} {acc.currency}
                 </option>
               ))}
             </select>
@@ -126,7 +128,7 @@ export default function Transfer() {
             <input
               type="text"
               value={toAccountId}
-              onChange={(e) => setToAccountId(e.target.value)}
+              onChange={(e) => setToAccountId(e.target.value.trim())}
               required
               placeholder="Paste 24-character Account ID"
               className="w-full px-4 py-4 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none shadow-sm transition-all font-mono tracking-widest text-lg"

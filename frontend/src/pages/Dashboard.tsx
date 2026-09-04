@@ -116,8 +116,8 @@ export default function Dashboard() {
                     <span className="inline-block px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-xs font-semibold tracking-wider uppercase mb-3">
                       {account.status}
                     </span>
-                    <p className="font-mono text-sm tracking-widest text-slate-400 opacity-80">
-                      ID: {account._id.slice(-8)}
+                    <p className="font-mono text-xs tracking-widest text-slate-400 opacity-80 break-all w-48">
+                      ID: {account._id}
                     </p>
                   </div>
                   <div className="p-3 bg-white/10 backdrop-blur-md rounded-2xl border border-white/5">
